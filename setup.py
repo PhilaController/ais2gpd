@@ -1,5 +1,7 @@
 from setuptools import setup
 
+PACKAGE_NAME = "ais2gpd"
+
 
 def find_version(path):
     import re
@@ -13,11 +15,12 @@ def find_version(path):
 
 
 setup(
-    name="ais2gpd",
-    version=find_version("carto2gpd/__init__.py"),
+    name=PACKAGE_NAME,
+    version=find_version(f"{PACKAGE_NAME}/__init__.py"),
     author="Nick Hand",
     maintainer="Nick Hand",
     maintainer_email="nick.hand@phila.gov",
     description="A Python utility to query the City of Philadelphia's Address Information System (AIS)",
     license="MIT",
+    python_requires=">=3.6",
 )
