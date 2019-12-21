@@ -1,9 +1,8 @@
 import requests
 import geopandas as gpd
 import pandas as pd
-import os
 
-API_ENDPOINT = "http://api.phila.gov/ais/v1/"
+API_ENDPOINT = "http://api.phila.gov/ais/v1"
 
 
 def get(addresses, ais_key, fields=None, params={}):
@@ -36,7 +35,8 @@ def get(addresses, ais_key, fields=None, params={}):
     params["gatekeeperKey"] = ais_key
 
     def get_single_query(address):
-        r = requests.get(os.sep.join([API_ENDPOINT, "search", address]), params=params)
+        url = f"{API_ENDPOINT}/search/{address}"
+        r = requests.get(url, params=params)
         json = r.json()
         if json.get("total_size", 0) > 0:
             return json["features"][0]
