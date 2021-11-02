@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ais2gpd"
-version = "1.0.2"
+version = "1.0.3"
 description = "A Python utility to query the City of Philadelphia's Address Information System (AIS)"
 authors = ["Nick Hand <nick.hand@phila.gov>"]
 license = "MIT"
