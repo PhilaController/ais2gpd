@@ -1,6 +1,9 @@
-import requests
 import geopandas as gpd
 import pandas as pd
+import requests
+from pkg_resources import packaging
+
+GEOPANDAS_VERSION = packaging.version.parse(gpd.__version__)
 
 API_ENDPOINT = "http://api.phila.gov/ais/v1"
 
@@ -23,7 +26,7 @@ def get(addresses, ais_key, fields=None, params={}):
         all fields
     params : dict
         additional query parameters to provide
-    
+
     Example
     -------
     >>> import ais2gpd
@@ -50,9 +53,14 @@ def get(addresses, ais_key, fields=None, params={}):
 
     # create the GeoDataFrame with the proper EPSG code
     srid = params.get("srid", 4326)
-    toret = gpd.GeoDataFrame.from_features(features, crs={"init": f"epsg:{srid}"})
 
-    # return the proper fields
+    # Convert to a GeoDataFrame
+    if GEOPANDAS_VERSION >= packaging.version.parse("0.7"):
+        toret = gpd.GeoDataFrame.from_features(features, crs=f"EPSG:{srid}")
+    else:
+        toret = gpd.GeoDataFrame.from_features(features, crs={"init": f"epsg:{srid}"})
+
+    # Return the proper fields
     if isinstance(fields, (tuple, list)) and len(fields) > 0:
         fields = [col for col in fields if col in toret.columns]
         if "geometry" not in fields:
